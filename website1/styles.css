@@ -4,6 +4,430 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: system-ui, sans-serif;
+  font-family: "Inter", sans-serif;
+  background: #E6E3D6;
+  color: #3a3b30;
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+}
+
+[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+h1, h2, h3, caption, .brand {
+  font-family: "Federo", sans-serif;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 2.7rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.7rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #3a3b30;
+  text-underline-offset: 0.25rem;
+}
+
+a:hover {
+  color: #555e40;
+}
+
+header,
+.footer-top,
+.footer-bottom,
+.two-columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+header,
+.footer-bottom {
+  align-items: center;
+}
+
+header {
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid #8d8e7e;
+}
+
+.brand {
+  font-size: 1.4rem;
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+nav a {
+  color: #8d8e7e;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: #D5AAA4;
+}
+
+.top {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: #E6E3D6;
+  background:
+    linear-gradient(rgba(105, 113, 88, 0.55), rgba(30, 40, 13, 0.85)),
+    url("matcha.jpg") center / cover no-repeat #555e40;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.hero .eyebrow {
+  font-size: 0.9rem;
+  color: #D5AAA4;
+  margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  max-width: 14ch;
+  margin-bottom: 1rem;
+}
+
+.hero .subhead {
+  max-width: 45ch;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.button {
+  border: 1px solid #3a3b30;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #D5AAA4;
+  color: #3a3b30;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background: #C1BFA4;
+}
+
+.hero .button {
+  border: none;
+  padding: 0.9rem 2.2rem;
+  font-weight: 600;
+}
+
+.band {
+  padding: 5rem 1.5rem;
+  border-bottom: 1px solid #8d8e7e;
+}
+
+.container {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.two-columns {
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.two-columns > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.sage-band {
+  background: #C1BFA4;
+}
+
+.pink-band {
+  background: #D5AAA4;
+}
+
+.section-intro {
+  max-width: 65ch;
+}
+
+figure {
+  flex: 0 0 35%;
+  min-width: 0;
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: #E6E3D6;
+}
+
+caption {
+  margin-bottom: 0.75rem;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+th, td {
+  padding: 1rem;
+  border: 1px solid #8d8e7e;
+  text-align: left;
+  vertical-align: top;
+}
+
+thead th {
+  background: #D5AAA4;
+  font-weight: 600;
+}
+
+.note {
+  font-size: 0.9rem;
+}
+
+.source-note {
+  margin-top: 1.25rem;
+}
+
+.source-note a,
+.resources a {
+  overflow-wrap: anywhere;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #3a3b30;
+  outline-offset: 4px;
+}
+
+.card {
+  flex: 0 0 38%;
+  padding: 2rem;
+  background: #E6E3D6;
+  border: 1px solid #8d8e7e;
+  border-radius: 0.75rem;
+}
+
+.tip-card {
+  background: #C1BFA4;
+}
+
+.tip-card .button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+ol.steps {
+  margin-top: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+ol.steps li {
+  margin-bottom: 1rem;
+}
+
+#tips {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(58, 59, 48, 0.2);
+}
+
+#tips ul,
+.resources {
+  padding-left: 1.25rem;
+}
+
+.resources {
+  margin-top: 1.5rem;
+}
+
+#tips li + li,
+.resources li + li {
+  margin-top: 0.5rem;
+}
+
+.flavor-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid #8d8e7e;
+  border-radius: 0.35rem;
+}
+
+.flavor-options legend {
+  padding: 0 0.35rem;
+  font-weight: 600;
+}
+
+.flavor-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 40%;
+}
+
+.card .button {
+  margin-top: 1rem;
+}
+
+#form-message {
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.site-footer {
+  padding: 3.5rem 3rem 1.5rem;
+  border-top: 1px solid #8d8e7e;
+}
+
+.footer-top {
+  align-items: flex-start;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+
+.site-footer .brand {
+  font-size: 3rem;
+}
+
+footer nav ul {
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #8d8e7e;
+  font-size: 0.8rem;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .band {
+    padding: 3rem 1.25rem;
+  }
+
+  header,
+  .two-columns,
+  .footer-top,
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+  header {
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  header nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .two-columns {
+    gap: 2rem;
+  }
+
+  #benefits th,
+  #benefits td {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  figure,
+  .card {
+    flex: none;
+    width: 100%;
+  }
+
+  .flavor-options label {
+    flex-basis: 100%;
+  }
+
+  .site-footer {
+    padding: 2.5rem 1.2rem 1.2rem;
+  }
+
+  .footer-top {
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .site-footer .brand {
+    font-size: 2.5rem;
+  }
+
+  .footer-bottom {
+    align-items: flex-start;
+  }
 }

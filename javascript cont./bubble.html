@@ -1,0 +1,86 @@
+<style>
+  body {
+    display: grid;
+    place-content: center;
+    background: #00b4ff;
+  }
+
+  .bubble {
+    position: relative;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 5px rgba(255, 255, 255, 1);
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: fixed;
+    top: 40px;
+    right: 40px;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #003566;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  button:hover {
+    background-color: #00539c;
+  }
+</style>
+
+<div class="bubble"></div>
+
+<aside>
+  <button type="button" id="inflate">Inflate</button>
+  <button type="button" id="deflate">Deflate</button>
+</aside>
+
+<script>
+  const inflateButton = document.querySelector("#inflate")
+  const deflateButton = document.querySelector("#deflate")
+  const bubble = document.querySelector(".bubble")
+  const audio  = document.createElement("audio")
+
+  let size = 200
+
+  inflateButton.addEventListener("click", () => {
+    size+=25 
+    
+    if(size > 400) {
+      audio.src = "pop.mp3"
+      audio.play()
+      bubble.remove()
+    }
+    else{
+      audio.src = "inflate.mp3"
+      audio.play()
+      bubble.style.width = size + 'px'
+      bubble.style.height = size + 'px'
+    }
+
+  });
+
+  deflateButton.addEventListener("click", () => {
+    size -= 25
+
+    if (size < 50) {
+      audio.src = 'pop.mp3'   
+      audio.play()
+      bubble.remove()
+    } else {
+      audio.src = 'deflate.mp3'
+      audio.play()
+      bubble.style.width = size + 'px'
+      bubble.style.height = size + 'px'
+    }
+  });
+</script>

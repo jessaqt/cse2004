@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #output {
+      max-width: 800px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background-color: #007bff;
+      font-size: 1.5rem;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    button:active {
+      transform: translateY(0) scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="output">
+    <p>Click the button below to make something happen.</p>
+  </div>
+
+  <button type="button">Do Something!</button>
+
+  <script>
+    const output = document.getElementById('output');
+    const button = document.querySelector('button');
+
+    button.addEventListener('click', () => {
+      fetch('https://catfact.ninja/fact')
+        .then(res => res.json())
+        .then(data => {
+          output.textContent = data.fact;
+        })
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fridge Magnet Poetry</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #222;
+      background: #f3f1ec;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+    }
+
+    .hint {
+      margin: 0 0 24px;
+      color: #666;
+    }
+
+    #fridge {
+      min-height: 260px;
+      padding: 24px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #e9edf0, #cfd6db);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 10px;
+    }
+
+    #pile {
+      margin-top: 32px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px dashed #bbb;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .magnet {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #fffdf7;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .magnet:hover {
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+<body>
+  <h1>Fridge Magnet Poetry</h1>
+  <p class="hint">Click a word in the pile to stick it on the fridge. Click a word on the fridge to take it off.</p>
+
+  <main id="board">
+    <section id="fridge"></section>
+    <section id="pile"></section>
+  </main>
+
+  <script>
+    // unique list of words
+    const words = [
+      'the', 'a', 'my', 'your', 'is', 'are', 'and', 'of', 'with', 'like', 'in', 'on', 'but', 'never', 'always',
+      'I', 'you', 'we', 'professor', 'burrito', 'coffee', 'midnight', 'deadline', 'pixel', 'cat', 'squirrel',
+      'homework', 'chaos', 'cloud', 'soup', 'thunder', 'robot', 'moon', 'shoes', 'ocean', 'pizza', 'library',
+      'wifi', 'snack', 'dream', 'whisper', 'giggle', 'panic', 'sparkle', 'love', 'want', 'eat', 'dance', 'sing',
+      'run', 'forget', 'moist', 'glorious', 'tiny', 'sleepy', 'delicious', 'neon', 'velvet', 'gentle', 'purple',
+      'spicy', 'ancient', 'loud', 'secretly', 'quietly', 'forever', 'please', 'beneath', 'above', 'yes', 'doom',
+    ]
+
+    // the words on the fridge, in the order they were added
+    let poem = []
+
+    // the words that are not on the fridge yet
+    function wordsInPile() {
+      return words.filter(word => !poem.includes(word))
+    }
+
+    // adds a word to the end of the poem, or removes it if it is already there
+    function toggleWord(word) {
+      if (poem.includes(word)) {
+        poem = poem.filter(w => w !== word)
+      } else {
+        poem.push(word)
+      }
+    }
+
+    const board = document.querySelector('#board')
+    const fridge = document.querySelector('#fridge')
+    const pile = document.querySelector('#pile')
+
+    function render() {
+      // 1. add the words in the poem into the "fridge" element
+      //    each word should be wrapped in a <span class="magnet">...</span>
+      fridge.innerHTML = poem.map(word => `<span class="magnet">${word}</span>`).join('')
+
+      // 2. all other words can be dumped into the "pile" element
+      //    each word should be wrapped in a <span class="magnet">...</span>
+      pile.innerHTML = wordsInPile().map(word => `<span class="magnet">${word}</span>`).join('')
+    }
+
+    render()
+    board.addEventListener('click', (event) => {
+      // 3. find the magnet that was clicked (if the click wasn't on a magnet, do nothing)
+      const magnet = event.target.closest('.magnet')
+      if (!magnet) return
+      // 4. toggle that magnet's word in or out of the poem
+      toggleWord(magnet.textContent)
+      // 5. render() again to update the fridge and pile
+      render()
+    })
+  </script>
+</body>
+</html>

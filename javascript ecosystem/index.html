@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Orientation Quiz</title>
+</head>
+<body>
+	<h1>Orientation Quiz Results</h1>
+	<h2>What is the operating system for my primary computer?</h2>
+	<canvas id="myChart" width="400" height="200"></canvas>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		const ctx = document.getElementById('myChart')
+
+		new Chart(ctx, {
+			type: 'doughnut',
+			data: {
+				labels: ['Windows', 'macOS', 'Linux'],
+				datasets: [{
+					label: 'Students',
+					data: [9, 44, 0]
+				}]
+			}
+		})
+	</script>
+
+</body>
+</html>

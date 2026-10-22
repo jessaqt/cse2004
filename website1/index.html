@@ -3,10 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slow Pour</title>
-  <link href="styles.css" rel="stylesheet">
+  <title>Matcha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Federo&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="top" id="intro">
+    <header>
+      <div class="brand">Matcha&nbsp;Co.</div>
+      <nav>
+        <ul>
+          <li><a href="#about">Origins</a></li>
+          <li><a href="#benefits">Health</a></li>
+          <li><a href="#prepare">Prepare</a></li>
+          <li><a href="#more">Explore</a></li>
+        </ul>
+      </nav>
+    </header>
 
+    <section class="hero">
+      <p class="eyebrow">GREEN TEA</p>
+      <h1>Matcha (抹茶)</h1>
+      <p class="subhead">An introduction to matcha: its origins, the ritual of preparation, and the science behind the cup.</p>
+      <button class="button" type="button">Shop Matcha</button>
+    </section>
+  </div>
+
+  <main>
+    <section class="band" id="about">
+      <div class="container two-columns">
+        <div>
+          <p class="eyebrow">01 / THE ORIGINS</p>
+          <h2>From China to Japan.</h2>
+          <p>Matcha’s roots trace back to China, where powdered tea was mixed with hot water and whisked during the Song dynasty (960–1279). In 1191, the Buddhist monk Eisai returned from China with tea seeds and helped introduce this method of preparing tea to Japan.</p>
+          <p>Over the following centuries, Japan developed its own growing and processing techniques, shaping the matcha we know today. Matcha also became central to the Japanese tea ceremony, turning the preparation and sharing of tea into a practice of care and attention.</p>
+        </div>
+        <figure>
+          <img src="history.avif" alt="A historical image related to matcha">
+        </figure>
+      </div>
+    </section>
+
+    <section class="band sage-band" id="benefits">
+      <div class="container">
+        <p class="eyebrow">02 / MORE THAN A GREEN CUP</p>
+        <h2>Health Benefits.</h2>
+        <p class="section-intro">Matcha is a form of green tea, with caffeine and plant compounds that researchers study for their potential benefits. Much of the evidence comes from green tea or extracts, rather than matcha itself.</p>
+        <table>
+          <caption>What’s in your cup, and what the research suggests</caption>
+          <thead>
+            <tr><th scope="col">Feature</th><th scope="col">Potential benefit</th><th scope="col">Keep in mind</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Caffeine</th><td>Can help with alertness.</td><td>The amount varies; it can also affect sleep.</td></tr>
+            <tr><th scope="row">Tea polyphenols</th><td>Includes catechins, compounds studied for their antioxidant activity.</td><td>Antioxidant activity alone does not prove that a drink prevents disease.</td></tr>
+            <tr><th scope="row">Cholesterol research</th><td>Green tea products have shown small reductions in total and LDL cholesterol.</td><td>Most studies used extracts, so the results do not directly establish the effect of a cup of matcha.</td></tr>
+          </tbody>
+        </table>
+        <p class="source-note note">Read the evidence: <a href="https://www.nccih.nih.gov/health/green-tea">NCCIH’s guide to green tea</a> and <a href="https://www.nccih.nih.gov/health/tea">tea research overview</a>.</p>
+      </div>
+    </section>
+
+    <section class="band" id="prepare">
+      <div class="container two-columns">
+        <div>
+          <p class="eyebrow">03 / THE LITTLE RITUAL</p>
+          <h2>Make your first cup.</h2>
+          <p>You’ll need matcha, warm water, a small sieve, a bowl, and a bamboo whisk or handheld frother. Start here, then adjust the strength to your taste.</p>
+          <ol class="steps">
+            <li>Sift about 1 teaspoon of matcha into your bowl.</li>
+            <li>Add a small splash of warm water and mix into a smooth paste.</li>
+            <li>Add more warm water and whisk briskly until mixed and lightly foamy.</li>
+            <li>Enjoy it straight, or pour over milk and ice for a latte.</li>
+          </ol>
+        </div>
+        <aside class="card tip-card" aria-label="Preparation tips">
+          <p class="eyebrow">A LITTLE EXTRA HELP</p>
+          <h3>A smoother cup.</h3>
+          <p>Clumps happen. A few small adjustments can make preparation easier.</p>
+          <button type="button" class="button" aria-expanded="false" aria-controls="tips">
+            Here are some tips
+          </button>
+          <div id="tips" hidden>
+            <ul>
+              <li>Sift first to break up dry clumps.</li>
+              <li>Use warm water rather than freshly boiling water.</li>
+              <li>Whisk in a quick W-shaped motion.</li>
+              <li>Keep your matcha tightly sealed, away from heat and light.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="band pink-band" id="more">
+      <div class="container two-columns">
+        <div>
+          <p class="eyebrow">04 / KEEP EXPLORING</p>
+          <h2>Make it your own.</h2>
+          <p>There’s more than one way to enjoy matcha. Explore tea producers’ guides, compare preparation methods, and find a cup you like.</p>
+          <ul class="resources">
+            <li><a href="https://www.ippodo-tea.co.jp/en/">Ippodo Tea — explore Japanese tea</a></li>
+            <li><a href="https://www.marukyu-koyamaen.co.jp/english/">Marukyu Koyamaen — learn about a Uji tea producer</a></li>
+            <li><a href="https://www.matcha.co.jp/history/?lang=en">Aiya — read about matcha’s history</a></li>
+          </ul>
+        </div>
+        <form id="preference-form" class="card">
+          <h3>What flavors do you enjoy?</h3>
+          <p class="note">Choose the flavors you like to get a preparation suggestion. Your answers stay on this page.</p>
+          <fieldset class="flavor-options">
+            <legend>Select as many as you like</legend>
+            <label for="sweet"><input id="sweet" name="flavors" type="checkbox" value="sweet"> Sweet</label>
+            <label for="umami"><input id="umami" name="flavors" type="checkbox" value="umami"> Savory / umami</label>
+            <label for="earthy"><input id="earthy" name="flavors" type="checkbox" value="earthy"> Earthy / grassy</label>
+            <label for="creamy"><input id="creamy" name="flavors" type="checkbox" value="creamy"> Creamy</label>
+            <label for="bitter"><input id="bitter" name="flavors" type="checkbox" value="bitter"> A little bitter</label>
+            <label for="unsure"><input id="unsure" name="flavors" type="checkbox" value="unsure"> Not sure yet</label>
+          </fieldset>
+          <button class="button" type="submit">Find my cup</button>
+          <p id="form-message" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="#intro">Matcha Co.</a>
+      </div>
+  
+      <nav aria-label="Footer navigation">
+        <ul>
+          <li><a href="#about">Origins</a></li>
+          <li><a href="#benefits">Health benefits</a></li>
+          <li><a href="#prepare">Preparation</a></li>
+          <li><a href="#more">Find your cup</a></li>
+        </ul>
+      </nav>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>CSE 2004 Web Development</p>
+      <a href="#intro">Back to top ↑</a>
+    </div>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
