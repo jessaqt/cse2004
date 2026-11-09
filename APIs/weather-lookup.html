@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Lookup</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input {
+      padding: 0.75rem 1rem;
+      font-size: 1.25rem;
+      border: 2px solid #ccc;
+      border-radius: 0.25rem;
+      width: 300px;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      font-size: 1.25rem;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #output {
+      max-width: 500px;
+      min-height: 100px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Weather Lookup</h1>
+
+  <div class="search-row">
+    <input type="text" id="city-input" placeholder="Enter a city name...">
+    <button type="button" id="search-btn">Search</button>
+  </div>
+
+  <div id="output">
+    <p>Enter a city name and click search to see the weather.</p>
+  </div>
+
+  <script>
+    const cityInput = document.getElementById('city-input');
+    const searchBtn = document.getElementById('search-btn');
+    const output = document.getElementById('output');
+
+    async function getWeather(city) {
+      let geoResponse = await fetch(`https://cse2004.com/api/geocode?address=${city}`);
+      let geoData = await geoResponse.json();
+
+      let lat = geoData?.results?.[0]?.geometry?.location?.lat;
+      let lng = geoData?.results?.[0]?.geometry?.location?.lng;
+
+      let weatherResponse = await fetch(`https://cse2004.com/api/weather?latitude=${lat}&longitude=${lng}`);
+      return await weatherResponse.json();
+    }
+
+    searchBtn.addEventListener('click', async () => {
+      let city = cityInput.value.trim();
+      if (!city) return;
+
+      try {
+        let weather = await getWeather(city);
+        output.textContent = `${city}: ${weather.temperature.degrees}° ,  ${weather.weatherCondition.description.text}`;
+      } catch (error) {
+        output.textContent = `Something went wrong: ${error.message}`;
+      }
+    });
+  </script>
+
+</body>
+</html>

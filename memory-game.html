@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lobby Leaves — A Gentle Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Marcellus&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1c1916;
+      --cream: #f4efe4;
+      --parchment: #ebe4d6;
+      --brass: #b8954a;
+      --brass-light: #d4b56a;
+      --vermillion: #c45c4a;
+      --forest: #2d4a3e;
+      --shadow: rgba(28, 25, 22, 0.18);
+      --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      font-size: 1.125rem;
+      color: var(--ink);
+      background-color: var(--cream);
+      background-image:
+        var(--paper-grain),
+        repeating-linear-gradient(
+          105deg,
+          transparent,
+          transparent 48px,
+          rgba(184, 149, 74, 0.06) 48px,
+          rgba(184, 149, 74, 0.06) 49px
+        ),
+        radial-gradient(ellipse 120% 80% at 50% 0%, #faf6ee 0%, var(--cream) 55%, #e8dfd0 100%);
+    }
+
+    .lobby {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 2.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--brass);
+      position: relative;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--brass);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    h1 {
+      font-family: Marcellus, "Palatino Linotype", Palatino, serif;
+      font-size: clamp(1.65rem, 5vw, 2.1rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--forest);
+    }
+
+    .tagline {
+      font-style: italic;
+      font-size: 1rem;
+      color: #5c5348;
+      margin-top: 0.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-family: Marcellus, serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--brass);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      padding: 1rem;
+      background: var(--parchment);
+      border: 1px solid rgba(184, 149, 74, 0.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 8px 24px var(--shadow);
+      background-image: var(--paper-grain);
+    }
+
+    .card {
+      aspect-ratio: 5 / 6;
+      perspective: none;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      background: transparent;
+      position: relative;
+    }
+
+    .card:disabled {
+      cursor: default;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      transform-origin: center bottom;
+    }
+
+    .card:hover:not(:disabled) .card-inner:not(.revealed) {
+      transform: translateY(-3px) rotate(-0.5deg);
+      box-shadow: 0 6px 14px var(--shadow);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      backface-visibility: hidden;
+      box-shadow:
+        1px 2px 0 rgba(255, 255, 255, 0.5) inset,
+        0 2px 4px rgba(28, 25, 22, 0.12);
+      background-color: #f7f2e8;
+      background-image: var(--paper-grain);
+    }
+
+    .card-back {
+      background-color: #e8dcc8;
+      background-image:
+        var(--paper-grain),
+        repeating-linear-gradient(
+          -12deg,
+          transparent,
+          transparent 6px,
+          rgba(45, 74, 62, 0.08) 6px,
+          rgba(45, 74, 62, 0.08) 7px
+        ),
+        linear-gradient(160deg, #ebe0cc 0%, #dfd2bc 100%);
+      border: 1px solid rgba(184, 149, 74, 0.35);
+    }
+
+    .card-back::before {
+      content: "";
+      width: 55%;
+      height: 55%;
+      border: 2px solid var(--brass);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      opacity: 0.55;
+    }
+
+    .card-front {
+      font-size: clamp(1.6rem, 6vw, 2.25rem);
+      border: 1px solid rgba(184, 149, 74, 0.25);
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      pointer-events: none;
+    }
+
+    .card-inner.revealed .card-back {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .card-inner.revealed .card-front {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card-inner.matched .card-front {
+      background-color: #f0ead8;
+      outline: 2px solid var(--brass-light);
+      outline-offset: -4px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.35rem;
+    }
+
+    button.reset {
+      font-family: Marcellus, serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.75rem;
+      color: var(--cream);
+      background: linear-gradient(180deg, var(--forest) 0%, #1e3329 100%);
+      border: 1px solid var(--brass);
+      cursor: pointer;
+      box-shadow: 0 3px 8px var(--shadow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button.reset:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 12px var(--shadow);
+    }
+
+    button.reset:active {
+      transform: translateY(0);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(244, 239, 228, 0.92);
+      background-image: var(--paper-grain);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s;
+      z-index: 10;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .overlay-panel {
+      text-align: center;
+      max-width: 340px;
+      padding: 2rem 1.75rem;
+      background: #faf6ee;
+      border: 2px solid var(--brass);
+      box-shadow: 0 12px 40px var(--shadow);
+      background-image: var(--paper-grain);
+    }
+
+    .overlay-panel h2 {
+      font-family: Marcellus, serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vermillion);
+      margin-bottom: 0.75rem;
+    }
+
+    .overlay-panel p {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      color: #3d3832;
+    }
+
+    .overlay-panel .reset {
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="lobby">
+    <header>
+      <h1>Lobby Leaves</h1>
+      <p class="tagline">While you wait — turn the leaves and find every pair</p>
+    </header>
+
+    <div class="stats" aria-live="polite">
+      <div class="stat">
+        <span class="stat-label">Moves</span>
+        <span class="stat-value" id="moves">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Time</span>
+        <span class="stat-value" id="timer">0:00</span>
+      </div>
+    </div>
+
+    <section class="board" id="board" aria-label="Card grid"></section>
+
+    <div class="actions">
+      <button type="button" class="reset" id="resetBtn">New deck</button>
+    </div>
+  </main>
+
+  <div class="overlay" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winTitle" hidden>
+    <div class="overlay-panel">
+      <h2 id="winTitle">All pairs found</h2>
+      <p id="winMessage"></p>
+      <button type="button" class="reset" id="playAgainBtn">Play again</button>
+    </div>
+  </div>
+
+  <script>
+    const EMOJIS = ["🐢", "🦋", "🌻", "🎈", "🍋", "🐚", "⭐", "🐠"];
+    const boardEl = document.getElementById("board");
+    const movesEl = document.getElementById("moves");
+    const timerEl = document.getElementById("timer");
+    const resetBtn = document.getElementById("resetBtn");
+    const winOverlay = document.getElementById("winOverlay");
+    const winMessage = document.getElementById("winMessage");
+    const playAgainBtn = document.getElementById("playAgainBtn");
+
+    let deck = [];
+    let flipped = [];
+    let lock = false;
+    let moves = 0;
+    let matchedCount = 0;
+    let timerStart = null;
+    let timerId = null;
+    let elapsedSeconds = 0;
+    let gameStarted = false;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${s.toString().padStart(2, "0")}`;
+    }
+
+    function tickTimer() {
+      if (timerStart === null) return;
+      elapsedSeconds = Math.floor((Date.now() - timerStart) / 1000);
+      timerEl.textContent = formatTime(elapsedSeconds);
+    }
+
+    function startTimer() {
+      if (gameStarted) return;
+      gameStarted = true;
+      timerStart = Date.now();
+      timerId = setInterval(tickTimer, 1000);
+      tickTimer();
+    }
+
+    function stopTimer() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function buildDeck() {
+      deck = shuffle([...EMOJIS, ...EMOJIS]);
+    }
+
+    function createCard(emoji, index) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "card";
+      btn.dataset.index = String(index);
+      btn.setAttribute("aria-label", "Face-down card");
+      const tilt = (index % 7) - 3;
+      btn.style.transform = `rotate(${tilt * 0.15}deg)`;
+
+      btn.innerHTML = `
+        <span class="card-inner">
+          <span class="card-face card-back" aria-hidden="true"></span>
+          <span class="card-face card-front" aria-hidden="true">${emoji}</span>
+        </span>
+      `;
+      btn.addEventListener("click", () => onCardClick(btn, emoji));
+      return btn;
+    }
+
+    function renderBoard() {
+      boardEl.innerHTML = "";
+      deck.forEach((emoji, i) => boardEl.appendChild(createCard(emoji, i)));
+    }
+
+    function resetGame() {
+      stopTimer();
+      flipped = [];
+      lock = false;
+      moves = 0;
+      matchedCount = 0;
+      timerStart = null;
+      elapsedSeconds = 0;
+      gameStarted = false;
+      movesEl.textContent = "0";
+      timerEl.textContent = "0:00";
+      winOverlay.classList.remove("show");
+      winOverlay.hidden = true;
+      buildDeck();
+      renderBoard();
+    }
+
+    function onCardClick(btn, emoji) {
+      const inner = btn.querySelector(".card-inner");
+      if (lock || inner.classList.contains("revealed") || inner.classList.contains("matched")) {
+        return;
+      }
+
+      startTimer();
+      inner.classList.add("revealed");
+      btn.setAttribute("aria-label", `Card showing ${emoji}`);
+      flipped.push({ btn, emoji, inner });
+
+      if (flipped.length === 2) {
+        moves += 1;
+        movesEl.textContent = String(moves);
+        checkPair();
+      }
+    }
+
+    function checkPair() {
+      lock = true;
+      const [a, b] = flipped;
+      if (a.emoji === b.emoji) {
+        a.inner.classList.add("matched");
+        b.inner.classList.add("matched");
+        matchedCount += 1;
+        flipped = [];
+        lock = false;
+        if (matchedCount === EMOJIS.length) {
+          stopTimer();
+          showWin();
+        }
+      } else {
+        setTimeout(() => {
+          a.inner.classList.remove("revealed");
+          b.inner.classList.remove("revealed");
+          a.btn.setAttribute("aria-label", "Face-down card");
+          b.btn.setAttribute("aria-label", "Face-down card");
+          flipped = [];
+          lock = false;
+        }, 750);
+      }
+    }
+
+    function showWin() {
+      const time = formatTime(elapsedSeconds);
+      winMessage.textContent = `Lovely work! You cleared the lobby in ${moves} moves and ${time}.`;
+      winOverlay.hidden = false;
+      requestAnimationFrame(() => winOverlay.classList.add("show"));
+    }
+
+    resetBtn.addEventListener("click", resetGame);
+    playAgainBtn.addEventListener("click", resetGame);
+
+    resetGame();
+  </script>
+</body>
+</html>
