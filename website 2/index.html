@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Estimate sunlight through your window and check whether your houseplants get enough light, using local weather and plant care data.">
+<title>Windowsill: light for your houseplants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="windowsill.css">
+</head>
+<body>
+<svg class="filters" aria-hidden="true" focusable="false"><filter id="wobble" x="-8%" y="-10%" width="116%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.011" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="24"/></filter></svg>
+
+<header class="banner">
+  <div class="wrap">
+    <nav class="pills" aria-label="Settings">
+      <div class="grp grp-loc">
+        <button class="chip" id="locBtn" type="button" aria-label="Set your window location">set location</button>
+        <button class="chip" id="unitBtn" type="button" aria-label="Switch temperature units">°F</button>
+      </div>
+    </nav>
+    <h1 class="mark">windowsill<span>*</span></h1>
+    <p class="tagline">sunlight through your window for indoor plants</p>
+  </div>
+</header>
+<div class="status-eyebrow" aria-live="polite">
+  <div class="wrap">
+    <p class="ticker" id="ticker" role="status">a window is a little garden. give it good light.</p>
+  </div>
+</div>
+
+<main>
+  <div class="stage">
+    <div class="wrap">
+      <noscript><p>Windowsill needs JavaScript to read the weather and plant data.</p></noscript>
+
+      <div class="loc-stack">
+        <section class="where blob" id="where" aria-labelledby="whereTitle">
+          <div id="whereSummary" class="wsum" hidden>
+            <div>
+              <h2 id="wsName"></h2>
+              <p class="coords" id="wsCoords"></p>
+            </div>
+            <div class="facts" id="wsFacts"></div>
+            <button class="btn ghost" id="changeLoc" type="button">change location</button>
+          </div>
+          <div id="whereForm">
+            <h2 id="whereTitle">where does your window look out?</h2>
+            <p>Your location tells us how much sun reaches the glass. It stays in this browser.</p>
+            <div class="row">
+              <button class="btn" id="geoBtn" type="button">use my location</button>
+              <label class="sr-only" for="cityInput">Search for a city</label>
+              <input class="field" id="cityInput" type="search" placeholder="or search for a city" autocomplete="off">
+              <button class="btn ghost" id="whereClose" type="button" hidden>cancel</button>
+            </div>
+            <ul class="results" id="cityResults" aria-label="City results"></ul>
+            <p class="msg" id="whereMsg" role="status"></p>
+          </div>
+        </section>
+
+        <section class="hero" id="hero" hidden aria-label="Today's window light">
+          <div class="info blob" id="heroInfo"></div>
+          <div class="chart-card blob">
+            <div class="glass" id="glass"></div>
+            <div class="legend">
+              <span><span class="swatch win" aria-hidden="true"></span>Light through your window</span>
+              <span><span class="swatch sky" aria-hidden="true"></span>Open sky</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="cream">
+    <div class="wrap">
+      <div class="alerts" id="alerts" aria-live="polite"></div>
+
+      <section id="weekSec" hidden aria-labelledby="weekTitle">
+        <h2 class="sec" id="weekTitle">the next five days</h2>
+        <p class="sub">Bar height is sun-hours reaching your glass. Colour shows whether that counts as low, medium or bright light for a houseplant.</p>
+        <div class="week" id="week"></div>
+      </section>
+
+      <section class="plant-add" aria-labelledby="addPlantTitle">
+        <h2 class="sec" id="addPlantTitle">add a plant</h2>
+        <p class="sub">Search by common or scientific name in OpenPlantbook. If nothing matches, try another spelling.</p>
+        <div class="keybox" id="keyBox"></div>
+        <div class="add-panel">
+          <label class="sr-only" for="plantInput">Search plants</label>
+          <input class="field" id="plantInput" type="search" placeholder="try monstera, snake plant, pothos…" autocomplete="off">
+          <ul class="results" id="plantResults" aria-label="Plant results"></ul>
+          <p class="msg" id="plantMsg" role="status"></p>
+        </div>
+      </section>
+
+      <section class="plant-yard" aria-labelledby="plantsTitle">
+        <h2 class="sec" id="plantsTitle">your plants</h2>
+        <p class="sub">Light verdicts use your window direction and local weather.</p>
+        <div class="plants" id="plantList"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Weather and sunlight from Open-Meteo. Plant search, photos, and care ranges from OpenPlantbook. Short “About” blurbs from Wikipedia when you expand a plant. Browser APIs: Geolocation for “use my location,” and localStorage to remember your city, units, window direction, and plant list on this device. City names from OpenStreetMap (Nominatim).</p>
+    <p>Light figures are estimates for a clear, uncurtained window using a simple solar-geometry model.</p>
+  </div>
+</footer>
+<script src="windowsill.js"></script>
+</body>
+</html>
